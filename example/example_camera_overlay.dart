@@ -22,13 +22,18 @@ class _ExampleCameraOverlayState extends State<ExampleCameraOverlay> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.credit_card), label: 'Card'),
-          BottomNavigationBarItem(icon: Icon(Icons.credit_card), label: 'Card'),
-          BottomNavigationBarItem(icon: Icon(Icons.credit_card), label: 'Card')
-        ],
-      ),
+      bottomNavigationBar: true
+          ? null
+          : BottomNavigationBar(
+              items: const [
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.credit_card), label: 'Card'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.credit_card), label: 'Card'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.credit_card), label: 'Card')
+              ],
+            ),
       backgroundColor: Colors.white,
       body: FutureBuilder<List<CameraDescription>?>(
         future: availableCameras(),

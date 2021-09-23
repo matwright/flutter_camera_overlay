@@ -9,7 +9,7 @@ typedef XFileCallback = void Function(XFile file);
 
 class CameraOverlay extends StatefulWidget {
   const CameraOverlay(this.camera, this.model, this.onCapture,
-      {this.flash = false, this.label, this.info, Key? key})
+      {this.flash = false, this.label, this.info, this.loadingWidget, Key? key})
       : super(key: key);
   final CameraDescription camera;
   final OverlayModel model;
@@ -17,16 +17,19 @@ class CameraOverlay extends StatefulWidget {
   final XFileCallback onCapture;
   final String? label;
   final String? info;
+  final Widget? loadingWidget;
   @override
   _FlutterCameraOverlayState createState() => _FlutterCameraOverlayState();
 }
 
 class _FlutterCameraOverlayState extends State<CameraOverlay> {
+  _FlutterCameraOverlayState();
   late CameraController controller;
 
   @override
   void initState() {
     super.initState();
+
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     controller = CameraController(widget.camera, ResolutionPreset.max);
     controller.initialize().then((_) {
@@ -52,16 +55,26 @@ class _FlutterCameraOverlayState extends State<CameraOverlay> {
 
   @override
   Widget build(BuildContext context) {
+    Widget loadingWidget = widget.loadingWidget ??
+        Container(
+          color: Colors.white,
+          height: double.infinity,
+          width: double.infinity,
+          child: const Align(
+            alignment: Alignment.center,
+            child: Text('loading camera'),
+          ),
+        );
+
     if (!controller.value.isInitialized) {
-      return Container();
+      return loadingWidget;
     }
-    controller.setZoomLevel(1);
-    controller.setFocusMode(FocusMode.auto);
-    controller.lockCaptureOrientation(DeviceOrientation.portraitUp);
+
     controller
         .setFlashMode(widget.flash == true ? FlashMode.auto : FlashMode.off);
     return Stack(
-      alignment: Alignment.center,
+      alignment: Alignment.bottomCenter,
+      fit: StackFit.expand,
       children: [
         CameraPreview(controller),
         OverlayShape(widget.model),
