@@ -50,7 +50,10 @@ class _ExampleCameraOverlayState extends State<ExampleCameraOverlay> {
             return CameraOverlay(
                 snapshot.data!.first,
                 CardOverlay.byFormat(OverlayFormat.cardID1),
-                (XFile file) => print(file.path));
+                (XFile file) => print(file.path),
+                info:
+                    'Position your ID card within the rectangle and ensure the image is perfectly readable.',
+                label: 'Scanning ID Card');
           } else {
             return const Align(
                 alignment: Alignment.center,

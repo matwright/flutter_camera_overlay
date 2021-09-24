@@ -9,7 +9,12 @@ typedef XFileCallback = void Function(XFile file);
 
 class CameraOverlay extends StatefulWidget {
   const CameraOverlay(this.camera, this.model, this.onCapture,
-      {this.flash = false, this.label, this.info, this.loadingWidget, Key? key})
+      {this.flash = false,
+      this.label,
+      this.info,
+      this.loadingWidget,
+      this.infoMargin,
+      Key? key})
       : super(key: key);
   final CameraDescription camera;
   final OverlayModel model;
@@ -18,6 +23,7 @@ class CameraOverlay extends StatefulWidget {
   final String? label;
   final String? info;
   final Widget? loadingWidget;
+  final EdgeInsets? infoMargin;
   @override
   _FlutterCameraOverlayState createState() => _FlutterCameraOverlayState();
 }
@@ -82,9 +88,10 @@ class _FlutterCameraOverlayState extends State<CameraOverlay> {
           Align(
             alignment: Alignment.topCenter,
             child: Container(
-                margin: const EdgeInsets.only(top: 100),
-                child: Wrap(
-                  direction: Axis.vertical,
+                margin: widget.infoMargin ??
+                    const EdgeInsets.only(top: 100, left: 20, right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (widget.label != null)
                       Text(
@@ -95,9 +102,11 @@ class _FlutterCameraOverlayState extends State<CameraOverlay> {
                             fontWeight: FontWeight.w700),
                       ),
                     if (widget.info != null)
-                      Text(
-                        widget.info!,
-                        style: const TextStyle(color: Colors.white),
+                      Flexible(
+                        child: Text(
+                          widget.info!,
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
                   ],
                 )),
