@@ -2,6 +2,7 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_beep/flutter_beep.dart';
 import 'package:flutter_camera_overlay/model.dart';
 import 'package:flutter_camera_overlay/overlay_shape.dart';
 
@@ -113,25 +114,30 @@ class _FlutterCameraOverlayState extends State<CameraOverlay> {
           ),
         Align(
           alignment: Alignment.bottomCenter,
-          child: Container(
-              margin: const EdgeInsets.only(bottom: 25),
-              child: Wrap(
-                direction: Axis.vertical,
-                children: [
-                  IconButton(
+          child: Material(
+              color: Colors.transparent,
+              child: Container(
+                  decoration: const BoxDecoration(
+                    color: Colors.black12,
+                    shape: BoxShape.circle,
+                  ),
+                  margin: const EdgeInsets.all(25),
+                  child: IconButton(
+                    enableFeedback: true,
+                    color: Colors.white,
                     onPressed: () async {
+                      for (int i = 10; i > 0; i--) {
+                        await HapticFeedback.vibrate();
+                      }
+
                       XFile file = await controller.takePicture();
                       widget.onCapture(file);
                     },
                     icon: const Icon(
                       Icons.camera,
-                      color: Colors.white,
                     ),
                     iconSize: 72,
-                    splashColor: Colors.grey,
-                  )
-                ],
-              )),
+                  ))),
         ),
       ],
     );
