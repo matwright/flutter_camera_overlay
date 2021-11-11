@@ -2,21 +2,23 @@ import 'package:camera/camera.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_beep/flutter_beep.dart';
 import 'package:flutter_camera_overlay/model.dart';
 import 'package:flutter_camera_overlay/overlay_shape.dart';
 
 typedef XFileCallback = void Function(XFile file);
 
 class CameraOverlay extends StatefulWidget {
-  const CameraOverlay(this.camera, this.model, this.onCapture,
-      {this.flash = false,
-      this.label,
-      this.info,
-      this.loadingWidget,
-      this.infoMargin,
-      Key? key})
-      : super(key: key);
+  const CameraOverlay(
+    this.camera,
+    this.model,
+    this.onCapture, {
+    Key? key,
+    this.flash = false,
+    this.label,
+    this.info,
+    this.loadingWidget,
+    this.infoMargin,
+  }) : super(key: key);
   final CameraDescription camera;
   final OverlayModel model;
   final bool flash;
@@ -36,26 +38,17 @@ class _FlutterCameraOverlayState extends State<CameraOverlay> {
   @override
   void initState() {
     super.initState();
-
-    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     controller = CameraController(widget.camera, ResolutionPreset.max);
     controller.initialize().then((_) {
       if (!mounted) {
         return;
       }
-
       setState(() {});
     });
   }
 
   @override
   void dispose() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
     controller.dispose();
     super.dispose();
   }
