@@ -20,13 +20,13 @@ simID000 - SIM cards
 
 Import the file.
 
-```
+```dart
 import 'package:flutter_camera_overlay/flutter_camera_overlay.dart';
 ```
 
 ### Use with default style:
 
-```
+```dart
 CameraOverlay(
     snapshot.data!.first,
     CardOverlay.byFormat(format),

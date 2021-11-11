@@ -1,6 +1,6 @@
 name: flutter_camera_overlay
 description: A Flutter plugin to add common camera overlay components such as ID Card, Credit Card, Texts, prompts or custom components.
-version: 0.1.0
+version: 0.1.1
 homepage: https://github.com/matwright/flutter_camera_overlay
 repository: https://github.com/matwright/flutter_camera_overlay
 environment:
