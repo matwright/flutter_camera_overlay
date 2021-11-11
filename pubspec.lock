@@ -30,7 +30,7 @@ packages:
     source: hosted
     version: "2.1.1"
   camera_web:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: camera_web
       url: "https://pub.dartlang.org"
