@@ -13,6 +13,7 @@ class CameraOverlay extends StatefulWidget {
     this.onCapture, {
     Key? key,
     this.flash = false,
+    this.enableCaptureButton = true,
     this.label,
     this.info,
     this.loadingWidget,
@@ -21,17 +22,20 @@ class CameraOverlay extends StatefulWidget {
   final CameraDescription camera;
   final OverlayModel model;
   final bool flash;
+  final bool enableCaptureButton;
   final XFileCallback onCapture;
   final String? label;
   final String? info;
   final Widget? loadingWidget;
   final EdgeInsets? infoMargin;
+
   @override
   _FlutterCameraOverlayState createState() => _FlutterCameraOverlayState();
 }
 
 class _FlutterCameraOverlayState extends State<CameraOverlay> {
   _FlutterCameraOverlayState();
+
   late CameraController controller;
 
   @override
@@ -104,33 +108,34 @@ class _FlutterCameraOverlayState extends State<CameraOverlay> {
                   ],
                 )),
           ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: Material(
-              color: Colors.transparent,
-              child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.black12,
-                    shape: BoxShape.circle,
-                  ),
-                  margin: const EdgeInsets.all(25),
-                  child: IconButton(
-                    enableFeedback: true,
-                    color: Colors.white,
-                    onPressed: () async {
-                      for (int i = 10; i > 0; i--) {
-                        await HapticFeedback.vibrate();
-                      }
-
-                      XFile file = await controller.takePicture();
-                      widget.onCapture(file);
-                    },
-                    icon: const Icon(
-                      Icons.camera,
+        if (widget.enableCaptureButton)
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Material(
+                color: Colors.transparent,
+                child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.black12,
+                      shape: BoxShape.circle,
                     ),
-                    iconSize: 72,
-                  ))),
-        ),
+                    margin: const EdgeInsets.all(25),
+                    child: IconButton(
+                      enableFeedback: true,
+                      color: Colors.white,
+                      onPressed: () async {
+                        for (int i = 10; i > 0; i--) {
+                          await HapticFeedback.vibrate();
+                        }
+
+                        XFile file = await controller.takePicture();
+                        widget.onCapture(file);
+                      },
+                      icon: const Icon(
+                        Icons.camera,
+                      ),
+                      iconSize: 72,
+                    ))),
+          ),
       ],
     );
   }
